@@ -1,0 +1,139 @@
+-- Create Students table
+CREATE TABLE Students (
+    StudentID INT PRIMARY KEY,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    DateOfBirth DATE,
+    Email VARCHAR(50) UNIQUE,
+    PhoneNumber VARCHAR(15)
+);
+
+-- Create Courses table
+CREATE TABLE Courses (
+    CourseID INT PRIMARY KEY,
+    CourseName VARCHAR(50) NOT NULL,
+    Instructor VARCHAR(50)
+);
+
+-- Create Enrollments table
+CREATE TABLE Enrollments (
+    EnrollmentID INT PRIMARY KEY,
+    StudentID INT,
+    CourseID INT,
+    EnrollmentDate DATE,
+    FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
+    FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
+);
+
+-- Create Assignments table
+CREATE TABLE Assignments (
+    AssignmentID INT PRIMARY KEY,
+    CourseID INT,
+    AssignmentName VARCHAR(50),
+    DueDate DATE,
+    FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
+);
+
+-- Create Grades table
+CREATE TABLE Grades (
+    GradeID INT PRIMARY KEY,
+    StudentID INT,
+    AssignmentID INT,
+    Score FLOAT,
+    FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
+    FOREIGN KEY (AssignmentID) REFERENCES Assignments(AssignmentID)
+);
+
+-- Insert sample data into Students table
+INSERT INTO Students (StudentID, FirstName, LastName, DateOfBirth, Email, PhoneNumber) VALUES
+(1, 'John', 'Doe', '1995-05-15', 'john.doe@example.com', '123-456-7890'),
+(2, 'Jane', 'Smith', '1998-08-20', 'jane.smith@example.com', '987-654-3210'),
+(3, 'Emily', 'Johnson', '1997-04-10', 'emily.johnson@example.com', '111-222-3333');
+
+-- Insert sample data into Courses table
+INSERT INTO Courses (CourseID, CourseName, Instructor) VALUES
+(1, 'Mathematics', 'Mr. Anderson'),
+(2, 'History', 'Ms. Davis'),
+(3, 'Science', 'Dr. Brown');
+
+-- Insert sample data into Enrollments table
+INSERT INTO Enrollments (EnrollmentID, StudentID, CourseID, EnrollmentDate) VALUES
+(1, 1, 1, '2024-01-10'),
+(2, 2, 2, '2024-02-15'),
+(3, 3, 3, '2024-03-20');
+
+-- Insert sample data into Assignments table
+INSERT INTO Assignments (AssignmentID, CourseID, AssignmentName, DueDate) VALUES
+(1, 1, 'Algebra Quiz', '2024-02-20'),
+(2, 2, 'World War II Essay', '2024-03-10'),
+(3, 3, 'Chemistry Lab Report', '2024-04-05');
+
+-- Insert sample data into Grades table
+INSERT INTO Grades (GradeID, StudentID, AssignmentID, Score) VALUES
+(1, 1, 1, 85),
+(2, 2, 2, 90),
+(3, 3, 3, 88);
+
+
+Basic Queries:
+1.SELECT * FROM Students;
+2.SELECT * FROM Courses;
+3.SELECT * FROM Courses;
+4.Select all assignments for a course:
+SELECT 
+    e.EnrollmentID,
+    s.FirstName,
+    s.LastName,
+    c.CourseName,
+    e.EnrollmentDate
+FROM Enrollments e
+JOIN Students s ON e.StudentID = s.StudentID
+JOIN Courses c ON e.CourseID = c.CourseID;
+SELECT * FROM Assignments WHERE CourseID = 1;
+
+5.Select grades for a student:
+SELECT 
+    g.StudentID,
+    s.FirstName,
+    s.LastName,
+    a.AssignmentName,
+    g.Score
+FROM Grades g
+JOIN Students s ON g.StudentID = s.StudentID
+JOIN Assignments a ON g.AssignmentID = a.AssignmentID
+WHERE g.StudentID = 1;
+
+6. Select grades for a student.
+SELECT 
+    g.StudentID,
+    s.FirstName,
+    s.LastName,
+    a.AssignmentName,
+    g.Score
+FROM Grades g
+JOIN Students s ON g.StudentID = s.StudentID
+JOIN Assignments a ON g.AssignmentID = a.AssignmentID
+WHERE g.StudentID = 1;
+
+7.Insert a new assignement
+INSERT INTO Assignments (CourseID, AssignmentName, DueDate)
+VALUES (1, 'Geometry Test', '2024-03-25');
+
+8.Update a student's phone number:
+UPDATE Students
+SET PhoneNumber = '555-555-5555'
+WHERE StudentID = 1;
+
+9.Delete an assignment.
+DELETE FROM Assignments WHERE AssignmentID = 1;
+
+
+
+
+
+
+
+
+
+
+
