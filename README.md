@@ -1,4 +1,5 @@
 Student Management System
+
 Overview
 This project provides a simple Student Management System implemented using SQL.
 It includes tables for storing student information, courses, enrollments, assignments, and grades.
